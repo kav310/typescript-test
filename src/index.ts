@@ -1,18 +1,14 @@
-import express, { Request, Response } from 'express';
-import { handler } from './routes/handler';
+import express from 'express';
+import dataDiscrepancyRouter from './routes';
 
 const app = express();
-const PORT = 3000;
 
-// Body parsing middleware
-app.use(express.json());
+app.use(express.json()); // Middleware to parse JSON bodies
 
-// Endpoint for handling data discrepancy check
-app.post('/check-discrepancy', async (req: Request, res: Response) => {
-    await handler(req, res);
-});
+// Use the route
+app.use('/api', dataDiscrepancyRouter);
 
-// Start server
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
